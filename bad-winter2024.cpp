@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// Клас Piece, для зберігання числа, його "хвоста" та "голови"
+// РљР»Р°СЃ Piece, РґР»СЏ Р·Р±РµСЂС–РіР°РЅРЅСЏ С‡РёСЃР»Р°, Р№РѕРіРѕ "С…РІРѕСЃС‚Р°" С‚Р° "РіРѕР»РѕРІРё"
 class Piece
 {
 public:
@@ -14,7 +14,7 @@ public:
 
     void splitNumber(const string& number)
     {
-        // Отримання голови та хвоста, якщо число має довжину хоча б 4
+        // РћС‚СЂРёРјР°РЅРЅСЏ РіРѕР»РѕРІРё С‚Р° С…РІРѕСЃС‚Р°, СЏРєС‰Рѕ С‡РёСЃР»Рѕ РјР°С” РґРѕРІР¶РёРЅСѓ С…РѕС‡Р° Р± 4
         if (number.size() >= 4)
         {
             head = number.substr(0, 2);  
@@ -30,13 +30,13 @@ public:
     }
 };
 
-// Збереження вже обчислених ланцюгів для оптимізації
+// Р—Р±РµСЂРµР¶РµРЅРЅСЏ РІР¶Рµ РѕР±С‡РёСЃР»РµРЅРёС… Р»Р°РЅС†СЋРіС–РІ РґР»СЏ РѕРїС‚РёРјС–Р·Р°С†С–С—
 unordered_map<string, string> memo;
 
-// Рекурсивна програма пошуку ланцюжків
+// Р РµРєСѓСЂСЃРёРІРЅР° РїСЂРѕРіСЂР°РјР° РїРѕС€СѓРєСѓ Р»Р°РЅС†СЋР¶РєС–РІ
 string findLongestChain(const vector<Piece>& pieces, const string& currentChain, const string& currentTail)
 {
-    // Перевірка, чи вже обчислено для поточного хвоста
+    // РџРµСЂРµРІС–СЂРєР°, С‡Рё РІР¶Рµ РѕР±С‡РёСЃР»РµРЅРѕ РґР»СЏ РїРѕС‚РѕС‡РЅРѕРіРѕ С…РІРѕСЃС‚Р°
     if (memo.find(currentTail) != memo.end())
     {
         return memo[currentTail];
@@ -46,10 +46,10 @@ string findLongestChain(const vector<Piece>& pieces, const string& currentChain,
 
     for (size_t i = 0; i < pieces.size(); ++i)
     {
-        // Перевірка, чи збігається хвіст поточного числа з головою іншого
+        // РџРµСЂРµРІС–СЂРєР°, С‡Рё Р·Р±С–РіР°С”С‚СЊСЃСЏ С…РІС–СЃС‚ РїРѕС‚РѕС‡РЅРѕРіРѕ С‡РёСЃР»Р° Р· РіРѕР»РѕРІРѕСЋ С–РЅС€РѕРіРѕ
         if (pieces[i].head == currentTail)
         {
-            // Формування нового ланцюга
+            // Р¤РѕСЂРјСѓРІР°РЅРЅСЏ РЅРѕРІРѕРіРѕ Р»Р°РЅС†СЋРіР°
             string newChain = currentChain;
 
             newChain += pieces[i].body.substr(2);
@@ -57,7 +57,7 @@ string findLongestChain(const vector<Piece>& pieces, const string& currentChain,
             vector<Piece> remainingPieces = pieces;
             remainingPieces.erase(remainingPieces.begin() + i);
 
-            // Рекурсивний пошук наступного ланцюга
+            // Р РµРєСѓСЂСЃРёРІРЅРёР№ РїРѕС€СѓРє РЅР°СЃС‚СѓРїРЅРѕРіРѕ Р»Р°РЅС†СЋРіР°
             string candidateChain = findLongestChain(remainingPieces, newChain, pieces[i].tail);
             if (candidateChain.length() > longestChain.length())
             {
@@ -66,13 +66,13 @@ string findLongestChain(const vector<Piece>& pieces, const string& currentChain,
         }
     }
 
-    // Збереження результату для цього хвоста
+    // Р—Р±РµСЂРµР¶РµРЅРЅСЏ СЂРµР·СѓР»СЊС‚Р°С‚Сѓ РґР»СЏ С†СЊРѕРіРѕ С…РІРѕСЃС‚Р°
     memo[currentTail] = longestChain;
 
     return longestChain;
 }
 
-// Функція зчитування чисел з файлу
+// Р¤СѓРЅРєС†С–СЏ Р·С‡РёС‚СѓРІР°РЅРЅСЏ С‡РёСЃРµР» Р· С„Р°Р№Р»Сѓ
 vector<string> loadNumbersFromFile(const string& filename)
 {
     vector<string> numbers;
@@ -93,7 +93,7 @@ vector<string> loadNumbersFromFile(const string& filename)
 
 int main()
 {
-    // Зчитування чисел з файлу
+    // Р—С‡РёС‚СѓРІР°РЅРЅСЏ С‡РёСЃРµР» Р· С„Р°Р№Р»Сѓ
     vector<string> numbers = loadNumbersFromFile("source.txt");
     if (numbers.empty())
     {
@@ -101,7 +101,7 @@ int main()
         return 1;
     }
 
-    // Створення вектора пазлів
+    // РЎС‚РІРѕСЂРµРЅРЅСЏ РІРµРєС‚РѕСЂР° РїР°Р·Р»С–РІ
     vector<Piece> pieces(numbers.size());
     for (size_t i = 0; i < numbers.size(); ++i)
     {
@@ -110,10 +110,10 @@ int main()
 
     string longestChain;
 
-    // Пошук ланцюгів для кожного пазлу
+    // РџРѕС€СѓРє Р»Р°РЅС†СЋРіС–РІ РґР»СЏ РєРѕР¶РЅРѕРіРѕ РїР°Р·Р»Сѓ
     for (const auto& piece : pieces)
     {
-        memo.clear(); // Очищення 
+        memo.clear(); // РћС‡РёС‰РµРЅРЅСЏ РєРѕРЅС‚РµР№РЅРµСЂР° РґР»СЏ РЅР°СЃС‚СѓРїРЅРѕРіРѕ РїР°Р·Р»Сѓ
         string chain = findLongestChain(pieces, piece.body, piece.tail);
         if (chain.length() > longestChain.length())
         {
